@@ -1,0 +1,42 @@
+*** Makefile		Tue Sep  5 16:31:24 2000
+--- Makefile.patched	Fri Oct 20 21:50:39 2000
+***************
+*** 124,130 ****
+  
+  # I've played around with newer perl than swig has.  Fixup the
+  # generated code with newer names.
+! FIXUP = sed -e 's/sv_undef/PL_sv_undef/g' 	    -e 's/sv_yes/PL_sv_yes/g'             -e 's/na)/PL_na)/g'             -e 's/^ \* \$$.*\$$$$/ * /'         < $@ >$@.tmp ; mv $@.tmp $@
+  
+  
+  EXTRA_DIST = Precall client Client_wrap.c Server_wrap.c 	Client.i Server.i Client.pm Server.pm Storage.pm 	ldpath.sh Precall.pl client.pl 	Slash/Recall.pm Slash/Storage.pm Slash/start3.sh
+--- 124,130 ----
+  
+  # I've played around with newer perl than swig has.  Fixup the
+  # generated code with newer names.
+! FIXUP = sed -e 's/sv_undef/PL_sv_undef/g' -e 's/sv_yes/PL_sv_yes/g' -e 's/na)/PL_na)/g' -e 's/^ \* \$$.*\$$$$/ * /' -e 's/boot_Server/boot_Replication__Recall__Server/g' -e 's/boot_Client/boot_Replication__Recall__Client/g' < $@ >$@.tmp ; mv $@.tmp $@
+  
+  
+  EXTRA_DIST = Precall client Client_wrap.c Server_wrap.c 	Client.i Server.i Client.pm Server.pm Storage.pm 	ldpath.sh Precall.pl client.pl 	Slash/Recall.pm Slash/Storage.pm Slash/start3.sh
+***************
+*** 425,434 ****
+  
+  
+  Client_wrap.c Client.pm: Client.i
+! 	/usr/bin/swig -perl5 -c++ $< && $(FIXUP)
+  
+  Server_wrap.c Server.pm: Server.i
+! 	/usr/bin/swig -perl5 -c++ $< && $(FIXUP)
+  
+  Server.cpp: Server_wrap.c
+  Client.cpp: Client_wrap.c
+--- 425,434 ----
+  
+  
+  Client_wrap.c Client.pm: Client.i
+! 	/usr/bin/swig -package Replication::Recall::Client -perl5 -c++ $< && $(FIXUP)
+  
+  Server_wrap.c Server.pm: Server.i
+! 	/usr/bin/swig -package Replication::Recall::Server -perl5 -c++ $< && $(FIXUP)
+  
+  Server.cpp: Server_wrap.c
+  Client.cpp: Client_wrap.c
