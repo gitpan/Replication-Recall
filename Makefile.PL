@@ -7,9 +7,9 @@
 # redistribute it and/or modify it under the same terms as Perl
 # itself.
 #
-# $Id: Makefile.PL,v 1.5 2000/11/16 11:25:50 cvs Exp $
+# $Id: Makefile.PL,v 1.6 2001/05/27 09:00:50 cvs Exp $
 
-( $VERSION ) = '$Revision: 1.5 $' =~ /\s+([\d\.]+)/;
+( $VERSION ) = '$Revision: 1.6 $' =~ /\s+([\d\.]+)/;
 
 use ExtUtils::MakeMaker;
 
@@ -43,7 +43,8 @@ system ("cd $recalldir/Precall; patch < $installdir/patch; rm -f *_wrap.c; make 
 system ("cd $recalldir/Precall; sed -e 's/ Server/ Replication::Recall::Server/g' < Server.pm > Server.fix;");
 system ("cd $recalldir/Precall; sed -e 's/ Client/ Replication::Recall::Client/g' < Client.pm > Client.fix;");
 system ("cd $recalldir/Precall; mv Server.fix Server.pm; mv Client.fix Client.pm");
-system ("cd $recalldir/Precall; cp .libs/*.so Server.pm Client.pm $installdir/.libs");
+system ("cd $recalldir/Precall; install -m 644 -o root -g root .libs/*.so Server.pm Client.pm $installdir/.libs");
+system ("cd $recalldir; install -m 644 -o root -g root recall/.libs/* Simple/.libs/* Containers/.libs/* /usr/lib");
 
 &WriteMakefile(
 	       NAME	     => 'Replication::Recall',
@@ -59,7 +60,23 @@ system ("cd $recalldir/Precall; cp .libs/*.so Server.pm Client.pm $installdir/.l
 
 sub get_recall {
   my $url = 'http://download.sourceforge.net/recall/';
-  print "Did not find Recall build directory around.\n";
+  print "\nDid not find Recall build directory around.\n\n";
+
+  print "I can download and install Recall for you automatically.
+There are several other pieces of software that are needed
+for Recall to compile properly. You'll have to install these
+youself:
+
+  libtcl -  http://sourceforge.net/projects/tcl
+  libtk  -  http://sourceforge.net/projects/tktoolkit
+  Pth    -  http://www.gnu.org/software/pth
+  SWIG   -  http://www.swig.org/
+
+Please make sure you have these packages installed before saying 'y'
+to the next question, or your Recall build will probably fail. 
+
+If your build fails because of missing packages not listed here,
+please email dbd-recall\@netropolis.org so that I can add them above.\n\n";
 
   if (-t STDIN and (-t STDOUT or -p STDOUT)) { # Interactive
     $| = 1;
