@@ -7,9 +7,9 @@
 # redistribute it and/or modify it under the same terms as Perl
 # itself.
 #
-# $Id: Makefile.PL,v 1.4 2000/11/14 22:23:37 cvs Exp $
+# $Id: Makefile.PL,v 1.5 2000/11/16 11:25:50 cvs Exp $
 
-( $VERSION ) = '$Revision: 1.4 $' =~ /\s+([\d\.]+)/;
+( $VERSION ) = '$Revision: 1.5 $' =~ /\s+([\d\.]+)/;
 
 use ExtUtils::MakeMaker;
 
@@ -18,8 +18,7 @@ use ExtUtils::MakeMaker;
 
 unless (defined $recalldir) {
   for $dir ('..', '../..') {
-    $recalldir = $dir, last 
-      if -e "$dir/recall/recall.h";
+    $recalldir = $dir, last if -e "$dir/recall/recall.h";
   }
 }
 

@@ -1,4 +1,6 @@
 MANIFEST
 Makefile.PL
 patch
-.libs/.exists
+.libs/Server.pm
+.libs/Client.pm
+
